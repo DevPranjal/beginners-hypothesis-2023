@@ -41,14 +41,14 @@ While you develop your model, we've hired Sarthak to provide us with more such f
 
   | Data | Accuracy Score |
   | -- | -- |
-  | Train Data | 94.19% |
-  | Adversarial Images using FGSM (using [`generate_evasion_examples.py`](generate_evasion_examples.py)) | 43.54% |
+  | Train Data | 94.19% (Clean Accuracy) |
+  | Adversarial Images using FGSM (using [`generate_evasion_examples.py`](generate_evasion_examples.py)) | 43.54% (Robust Accuracy) |
 
   Your job is thus to improve the accuracy score of 43.54 % in the second row.
 
 ## Submission
 
-You just need to submit the model weights file.
+You just need to submit the model weights file. Submit your file to [this Google form](https://docs.google.com/forms/d/e/1FAIpQLSeGOEURPFrh5MxYFUt1aR2GvlTEj0x7nO8VPnKorCahHzGmEA/viewform) (only IITR ID).
 
 **Note**: Save the model's `state_dict` into the file as shown below:
 
@@ -82,6 +82,15 @@ net = Net()
 # save the model's state_dict
 torch.save(net.state_dict(), 'model.pt')
 ```
+
+## Leaderboard
+
+Since we have to generate the test data for each submission, hosting on Kaggle is not possible. We will however update the leaderboard here as we start recieving the submission.
+
+| Name | Clean Accuracy | Robust Accuracy |
+| -- | -- | -- |
+| DSG | 94.19% | 43.54% |
+
 
 ---
 
