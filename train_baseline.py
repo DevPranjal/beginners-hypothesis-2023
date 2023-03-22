@@ -8,6 +8,11 @@ import torch.optim as optim
 from zipfile import ZipFile
 from tqdm.auto import tqdm
 import os
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--train_data', type=str, required=True)
+args = parser.parse_args()
 
 ############################################################
 #### defining the network, optimizer, and loss function ####
@@ -41,9 +46,9 @@ optimizer = optim.Adam(net.parameters(), lr=0.001)
 #### unzipping data ####
 ########################
 
-print('----> unzipping train_data.zip into unzipped_data')
+print('----> unzipping train_data into unzipped_data')
 
-with ZipFile('train_data.zip', 'r') as f:
+with ZipFile(args.train_data, 'r') as f:
     f.extractall('unzipped_data')
 
 ################################

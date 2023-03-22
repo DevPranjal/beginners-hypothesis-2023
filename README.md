@@ -13,21 +13,44 @@ While you develop your model, we've hired Sarthak to provide us with more such f
 ## Technical Details
 
 - Such attacks on machine learning models are called **Adversarial Attacks**. For the purpose of this problem statement we use the **FGSM Attack** to generate images which could evade the machine learning model.
-- The initial baseline model (developed by Aaryan) is a simple CNN, trained on [`train_data.zip`](train_data.zip). More details on training can be found in the [`train_baseline.py`](train_baseline.py). The same file is used to produce [`model.pt`](model.pt) which has already been provided in the repository. 
-- As mentioned above, Sarthak evaded the machine learning model by using the FGSM attack. You are encouraged to read more about it online. Adversarial samples generated using the FGSM attack are in stored with the archive [`test_data_fgsm.zip`](test_data_fgsm.zip).
-- The sample images stored in [`test_data_fgsm.zip`](test_data_fgsm.zip) will be used to test your freshly trained machine learning model.
+
+- The initial baseline model (developed by Aaryan) is a simple CNN, trained on [`train_data.zip`](train_data.zip). More details on training can be found in the [`train_baseline.py`](train_baseline.py). The same file is used to produce [`model.pt`](model.pt) which has already been provided in the repository 
+  ```
+  > python train_baseline.py --train_data 'path/to/train/data'
+  ```
+
+- This is the baseline training. To approach the problem, you need to change the baseline training to **adversarial training**. This makes the model more robust to adversarial attacks.
+
+- **To read more about adversarial attacks and adversarial training, refer to this [blog post](https://adversarial-ml-tutorial.org/introduction/)**. This is just the introduction, and the internet is your limit.
+
+- As mentioned above, Sarthak evaded the machine learning model by using the FGSM attack. You are encouraged to read more about it online.
+  - Adversarial samples are specific to the model weights.
+  - Adversarial sample generated using FGSM attack may be effective against one model but not another though they have trained using the same technique.
+  - Hence, for every model submission we recieve, we will attack the model and create new adversarial samples to test the model.
+  - For transperancy, we provide the [Python script (FGSM attack implemented)](generate_evasion_examples.py) which will generate the adversarial samples which your model will be tested on:
+
+    ```
+    > python generate_adversarial_examples.py --train_data 'path/to/train_data.zip' --model 'path/to/model.pt'
+    ```
+
+    This script will also output the **clean** (on the actual train data) and **robust** (on FGSM attacked data) **accuracies** of your model.
+
+- **Many adversarial defense techniques have been implemented [here](https://github.com/DSE-MSU/DeepRobust/tree/master/deeprobust/image#defense-methods)**
+
 - For a reference, some numbers on the baseline model ([`model.pt`](model.pt)) are provided below:
 
-| Data | Accuracy Score |
-| -- | -- |
-| Train Data ([`train_data.zip`](train_data.zip)) | 94.19% |
-| Adversarial Images using FGSM ([`test_data_fgsm.zip`](test_data_fgsm.zip)) | 43.54% |
+  | Data | Accuracy Score |
+  | -- | -- |
+  | Train Data | 94.19% |
+  | Adversarial Images using FGSM (using [`generate_evasion_examples.py`](generate_evasion_examples.py)) | 43.54% |
 
-- Hence, the goal of this challenge is to train your machine learning model in such a way that accuracy score on Adversarial Images is improved. This is technically referred to as **Adversarial Training**.
+  Your job is thus to improve the accuracy score of 43.54 % in the second row.
 
-## Some Starter Guidelines
+## Submission
 
-- To load the model weights provided in [`model.pt`](model.pt), we recommend you to use PyTorch. In any Python script they can be loaded as follows:
+You just need to submit the model weights file.
+
+**Note**: Save the model's `state_dict` into the file as shown below:
 
 ```python
 from torch import nn
@@ -53,29 +76,12 @@ class Net(nn.Module):
         return x
 
 net = Net()
-net.load_state_dict(torch.load('model.pt'))
 
-... # use a pretrained net
+# adversarial training ...
+
+# save the model's state_dict
+torch.save(net.state_dict(), 'model.pt')
 ```
-
-- [This blog-post](https://adversarial-ml-tutorial.org/introduction/) provides an amazing introduction to adversarial machine learning. It also provides examples of adversarial attack and adversarial training.
-- Many adversarial defense techniques have been implemented [here](https://github.com/DSE-MSU/DeepRobust/tree/master/deeprobust/image#defense-methods)
-
-## Submission
-
-You will need to submit your predictions to the images present in [`test_data_fgsm.zip`](test_data_fgsm.zip). The images are within the zip are named as `test_0.jpg`, `test_1.jpg`, etc. Your final submission will be a `.csv` file with the following sample contents:
-
-| filename | predicition |
-| -- | -- |
-| test_0.jpg | 0 |
-| test_1.jpg | 0 |
-| test_2.jpg | 1 |
-| test_3.jpg | 0 |
-| test_4.jpg | 1 |
-| test_5.jpg | 1 |
-| test_6.jpg | 0 |
-
-where the predicition is 0 if predicted as cat, 1 if not-cat
 
 ---
 
