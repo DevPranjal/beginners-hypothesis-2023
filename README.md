@@ -90,10 +90,13 @@ Since we have to generate the test data for each submission, hosting on Kaggle i
 | Name | Clean Accuracy | Robust Accuracy |
 | -- | -- | -- |
 | Priyanshu | 98.18% | 92.91% |
+| Shivansh | 91.71% | 76.62% |
+| Ashwarya | 98.76% | 74.98% |
 | Anikesh | 85.49% | 68.62% |
+| Prachi | 87.95% | 66.28% |
 | Adarsh | 100% | 57.45% |
 | Sarvagya | 70.38% | 53.79% |
-| Suyash | 95.57% | 44.92% |
+| Suyash | 98.86% | 51.78% |
 | DSG | 94.19% | 43.54% |
 
 
